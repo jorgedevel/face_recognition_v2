@@ -3,6 +3,7 @@ import time
 import os
 import uuid
 import MySQLdb as mysql
+import sys
 
 # connect to database
 database = mysql.connect(
@@ -12,16 +13,16 @@ database = mysql.connect(
     database='recognition'
 )
 cur = database.cursor()
-print('*'*10 + ' APPLICATION CONNECTED TO DATABASE ' + '*'*10)
+#print('*'*10 + ' APPLICATION CONNECTED TO DATABASE ' + '*'*10)
 
 ON_REGISTER = '.:. Register .:.'
 ON_READY = '.:. Countdowner for capture image .:.'
 
-print('*'*10 + ' APPLICATION NEED THIS INFORMATION ' + '*'*10)
-NAME_USER = input('1. Your first name: ')
-LAST_NAME_USER = input('2. Your last name: ')
+#print('*'*10 + ' APPLICATION NEED THIS INFORMATION ' + '*'*10)
+NAME_USER = sys.argv[1]  #input('1. Your first name: ')
+LAST_NAME_USER = sys.argv[2] #input('2. Your last name: ')
 
-cur.execute('INSERT INTO student (name, lastname) values (%s, %s)', (NAME_USER, LAST_NAME_USER))
+cur.execute('INSERT INTO student (name, lastname) VALUES (%s, %s)', (NAME_USER, LAST_NAME_USER))
 database.commit() # save changes
 
 DIRNAME_USER = f'resources/{LAST_NAME_USER} {NAME_USER}'
@@ -29,7 +30,7 @@ os.makedirs(DIRNAME_USER, exist_ok=True)
 
 casc_path = os.path.dirname(cv2.__file__) + '/data/haarcascade_frontalface_default.xml' # get path cascade from opencv
 face_cascade = cv2.CascadeClassifier(casc_path)
-print('*'*10 + ' STARTING WEBCAM ' + '*'*10)
+#print('*'*10 + ' STARTING WEBCAM ' + '*'*10)
 
 cap = cv2.VideoCapture(0)
 cap.set(3, 640)
@@ -45,7 +46,7 @@ if cap.isOpened():
         cv2.imshow(ON_REGISTER, img)
         
         if k == 13: # on [Enter]
-            detect_number = 0
+            #detect_number = 0
             TIMER = int(10)
             cv2.destroyWindow(ON_REGISTER)
             prev = time.time()
@@ -76,11 +77,12 @@ if cap.isOpened():
                 _, img = cap.read()
                 cv2.imwrite(f'{DIRNAME_USER}/{uuid.uuid4()}.jpg', img)
                 count+=1
-                print(f'captured {count} image(s)')
+                print(f'[CAPTURED] {count} image(s)')
                 cv2.destroyWindow(ON_READY)
         elif k == 27: # on [ESC]
+            print('[FINISH]')
             break
     cap.release()
     cv2.destroyAllWindows()
 else:
-    print('Camera is not available')
+    print('[CAMERA ERROR]')
