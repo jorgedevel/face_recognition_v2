@@ -1,0 +1,10 @@
+CREATE DATABASE recognition;
+
+USE recognition;
+
+CREATE TABLE student
+(
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL
+);
