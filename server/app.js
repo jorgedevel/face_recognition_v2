@@ -19,16 +19,18 @@ app.post('/api/exec/register', (req, res) => {
         lastname
     } = req.body;
 
+    res.send({
+        msg: 'The program start in seconds'
+    })
+
     const programPython = executeProgramPython('register', [name, lastname])
 
     programPython.stdout.on('data', (data) => {
-        res.write(data)
         console.log(data.toString())
     })
 
     programPython.on('close', (code) => {
         console.log(`python program exit with code ${code}`)
-        res.end()
     })
 })
 
@@ -38,16 +40,18 @@ app.post('/api/exec/recognize', (req, res) => {
         lastname
     } = req.body;
 
+    res.send({
+        msg: 'The program start in seconds'
+    })
+
     const programPython = executeProgramPython('recognize', [name, lastname])
 
     programPython.stdout.on('data', (data) => {
-        res.write(data)
         console.log(data.toString())
     })
 
     programPython.on('close', (code) => {
         console.log(`python program exit with code ${code}`)
-        res.end()
     })
 })
 
