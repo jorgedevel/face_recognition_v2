@@ -41,8 +41,6 @@ if cap.isOpened():
     while True:
         _, img = cap.read()
         k = cv2.waitKey(125)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(img, '10', (50, 0), font, 2, (76, 153, 0), 4, cv2.LINE_AA)
         cv2.imshow(ON_REGISTER, img)
         
         if k == 13: # on [Enter]
@@ -54,7 +52,7 @@ if cap.isOpened():
             while TIMER >= 0:
                 _, img = cap.read()
                 font = cv2.FONT_HERSHEY_SIMPLEX
-                cv2.putText(img, str(TIMER), (100, 100), font, 7, (76, 153, 0), 4, cv2.LINE_AA)
+                cv2.putText(img, str(TIMER), (50, 50), font, 2, (76, 153, 0), 4, cv2.LINE_AA)
                 cur = time.time()
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 faces = face_cascade.detectMultiScale(
@@ -67,12 +65,13 @@ if cap.isOpened():
 
                 for (x, y, w, h) in faces:
                     cv2.rectangle(img, (x,y), (x+w, y+h), (0, 255, 0), 2)
+                cv2.imshow(ON_READY, img)
+                
                 if cur - prev >= 1 & len(faces) > 0:
                     #detect_number+=1
                     #print(f'detect: {detect_number}')
                     prev = cur
                     TIMER-=1
-                cv2.imshow(ON_READY, img)
             else:
                 _, img = cap.read()
                 cv2.imwrite(f'{DIRNAME_USER}/{uuid.uuid4()}.jpg', img)

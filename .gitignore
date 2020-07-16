@@ -1,3 +1,5 @@
 resources
 *.example.xml
 *.example.py
+package-lock.json
+node_modules
