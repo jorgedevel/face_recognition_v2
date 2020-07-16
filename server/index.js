@@ -12,7 +12,7 @@ app.post('/api/exec/register', (req, res) => {
         lastname
     } = req.body;
 
-    const programPython = spawn('py', ['register.py', name, lastname])
+    const programPython = spawn('py', ['src/register.py', name, lastname])
 
     programPython.stdout.on('data', (data) => {
         //res.write(data)
@@ -31,7 +31,7 @@ app.post('/api/exec/recognize', (req, res) => {
         lastname
     } = req.body;
 
-    const programPython = spawn('py', ['recognize.py', name, lastname])
+    const programPython = spawn('py', ['src/recognize.py', name, lastname])
 
     programPython.stdout.on('data', (data) => {
         //res.write(data)

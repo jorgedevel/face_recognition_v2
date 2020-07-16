@@ -25,6 +25,7 @@ LIST = os.listdir(PATH)
 
 casc_path = os.path.dirname(cv2.__file__) + '/data/haarcascade_frontalface_default.xml' # get path cascade from opencv
 face_cascade = cv2.CascadeClassifier(casc_path)
+detected_count = 0
 
 for _file in LIST:
     curImg = cv2.imread(f'{PATH}/{_file}')
@@ -72,8 +73,10 @@ if cap.isOpened():
                 #print(faceDis)
                 matchIndex = np.argmin(faceDis) #valor minimo
 
-                if matches[matchIndex]:            
-                    print(True)
+                if matches[matchIndex]:
+                    detected_count+=1
+                    if detected_count == 20:
+                        print(True)
                     y1,x2,y2,x1 = faceLoc
                     #cv2.rectangle(img,(x1,y1),(x2,y2),(0,255,0),2)
                     #cv2.rectangle(img,(x1,y2-35),(x2,y2),(0,255,0),cv2.FILLED)
